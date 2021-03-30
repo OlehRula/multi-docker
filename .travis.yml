@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t rulaoleh/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true rulaoleh/react-test npm run test
+
+after_success:
+  - docker build -t rulaoleh/multi-client ./client
+  - docker build -t rulaoleh/multi-nginx ./nginx
+  - docker build -t rulaoleh/multi-server ./server
+  - docker build -t rulaoleh/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push rulaoleh/multi-client
+  - docker push rulaoleh/multi-nginx
+  - docker push rulaoleh/multi-server
+  - docker push rulaoleh/multi-worker  
