@@ -17,4 +17,4 @@ after_success:
   - docker push rulaoleh/multi-client
   - docker push rulaoleh/multi-nginx
   - docker push rulaoleh/multi-server
-  - docker push rulaoleh/multi-worker  
+  - docker push rulaoleh/multi-worker
